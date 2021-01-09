@@ -1,3 +1,11 @@
+# ------------------------- SERVER ------------------------- #
+# Private vars
+server/.mongokey
+
+# Python
+**/__pycache__/
+
+# ------------------------- ANDROID ------------------------- #
 # Built application files
 *.apk
 *.aar
