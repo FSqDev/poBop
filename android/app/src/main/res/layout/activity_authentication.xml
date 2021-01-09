@@ -14,21 +14,24 @@
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:rotation="-4" />
+        android:rotation="-12"
+        android:rotationX="-8" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:rotation="8" />
+        android:rotation="-46"
+        android:rotationX="54" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:rotation="-37"
+        android:rotationY="50"
         android:text="@string/login" />
 </LinearLayout>
