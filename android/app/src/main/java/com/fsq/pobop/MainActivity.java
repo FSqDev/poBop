@@ -1,5 +1,8 @@
 package com.fsq.pobop;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -59,5 +62,15 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
+        if (sharedPreferences.getLong("id", -1) == -1) {
+            Intent newIntent = new Intent(MainActivity.this, AuthenticationActivity.class);
+            startActivity(newIntent);
+        }
     }
 }
