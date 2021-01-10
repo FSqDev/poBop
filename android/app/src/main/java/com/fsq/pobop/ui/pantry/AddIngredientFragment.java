@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 
 import com.fsq.pobop.R;
 import com.fsq.pobop.entity.ingredient.Ingredient;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +35,7 @@ public class AddIngredientFragment extends Fragment implements DatePickerDialog.
         root = inflater.inflate(R.layout.fragment_add_ingredient, container, false);
         viewModel = new ViewModelProvider(this).get(PantryViewModel.class);
 
-        EditText nameTextView = root.findViewById(R.id.editTextIngredientName);
+        TextInputEditText nameTextView = root.findViewById(R.id.editTextIngredientName);
         dateTextView = root.findViewById(R.id.textViewDate);
         dateTextView.setText(LocalDate.now().format(formatter));
         dateTextView.setOnClickListener(v -> showDatePickerDialog());

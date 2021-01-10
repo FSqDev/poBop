@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/pantry_menu_add"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@mipmap/plus"
         android:title=""
         app:showAsAction="ifRoom|withText" />
 </menu>
