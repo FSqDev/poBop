@@ -7,7 +7,7 @@
     android:id="@+id/card"
     app:cardCornerRadius="7dp"
     android:elevation="7dp"
-    android:layout_margin="16dp">
+    android:layout_margin="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -30,7 +30,6 @@
             android:layout_marginTop="8dp"
             android:id="@+id/txtRecipeName" />
 
-
         <TextView
             android:id="@+id/txtSpoonacularScore"
             android:layout_width="wrap_content"
@@ -41,7 +40,6 @@
             android:text="Spoonacular Score"
             android:textSize="16sp"
             android:textStyle="bold" />
-
 
     </RelativeLayout>
 

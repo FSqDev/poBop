@@ -27,7 +27,8 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <include
                 layout="@layout/bottom_sheet" />
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/filter"
-        app:backgroundTint="#15a14a"
+        app:backgroundTint="#98db6c"
         app:icon="@drawable/ic_baseline_filter_list_24"
         app:layout_constraintBottom_toTopOf="@id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
