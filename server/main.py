@@ -3,6 +3,7 @@ load_dotenv()
 
 from flask import Flask, request, Response, jsonify
 import db
+from bson.objectid import ObjectId
 import bcrypt
 import os
 from spoon import SpoonAPI
@@ -66,6 +67,28 @@ def login():
             return Response(str(account["_id"]), status=200)
         else:
             return Response("Wrong password", status=400)
+
+
+@app.route('/users/products', methods=['GET'])
+def getUserproducts():
+    """
+    Gets the list representing the products a user currently has
+    Expecting parameter id (the MongoDB ID)
+    Returns json with the products under 'products'
+    """
+    userID = request.args.get("id")
+    if not userID:
+        return Response("Expected parameter 'id' in request", status=400)
+    
+    resp = db.db["users"].find_one({"_id": ObjectId(userID)})
+    if not resp:
+        return Response("Invalid user ID", status=400)
+    return jsonify({
+        "products": resp["products"]
+    })
+
+
+@app.route('/users/products', methods=['PUT'])
 
 
 @app.route('/products/getinfo', methods=['POST'])
