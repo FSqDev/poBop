@@ -70,7 +70,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             editor.apply();
             finish();
         }, error -> {
-            Log.d( "authenticate: ", String.valueOf(error.networkResponse.statusCode));
         });
 
         queue.add(jsonObjectRequest);
