@@ -30,4 +30,8 @@ public class IngredientRepository extends BaseRepository<Ingredient, IngredientD
     public List<Ingredient> findAllDirty() {
         return dao.findAllDirty();
     }
+
+    public List<Ingredient> findAllIngredients() {
+        return dao.findAllIngredients();
+    }
 }
