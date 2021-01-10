@@ -79,6 +79,7 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
             return true;
         } else if (id == R.id.pantry_menu_sync) {
             sync();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
