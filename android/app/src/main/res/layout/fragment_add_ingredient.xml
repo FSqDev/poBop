@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.pantry.AddIngredientFragment" >
+
+    <EditText
+        android:id="@+id/editTextIngredientName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:rotation="-12" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rotation="-46" />
+
+    <Button
+        android:id="@+id/buttonAddIngredient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rotation="-79"
+        android:text="Add" />
+</LinearLayout>

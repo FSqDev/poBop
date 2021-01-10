@@ -2,25 +2,25 @@ package com.fsq.pobop.data;
 
 import androidx.room.TypeConverter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DateConverter {
-    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @TypeConverter
-    public String dateToString(LocalDateTime localDateTime) {
-        if (localDateTime != null) {
-            return localDateTime.format(format);
+    public String dateToString(LocalDate localDate) {
+        if (localDate != null) {
+            return localDate.format(format);
         } else {
             return "";
         }
     }
 
     @TypeConverter
-    public LocalDateTime stringToDate(String date) {
+    public LocalDate stringToDate(String date) {
         if (!date.equals("")) {
-            return LocalDateTime.parse(date, format);
+            return LocalDate.parse(date, format);
         } else {
             return null;
         }

@@ -1,6 +1,7 @@
 package com.fsq.pobop.ui.pantry;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -26,6 +27,10 @@ public class PantryViewModel extends AndroidViewModel {
 
     public LiveData<List<Ingredient>> findAll() {
         return ingredientRepository.findAll();
+    }
+
+    public void add(Ingredient ingredient){
+        ingredientRepository.insert(ingredient);
     }
 
 }

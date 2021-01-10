@@ -4,19 +4,19 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Ingredient {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "name")
     private String productName;
 
     @ColumnInfo(name = "expiry_date")
-    private LocalDateTime expiryDate;
+    private LocalDate expiryDate;
 
     public int getId() {
         return id;
@@ -34,11 +34,11 @@ public class Ingredient {
         this.productName = productName;
     }
 
-    public LocalDateTime getExpiryDate() {
+    public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(LocalDateTime expiryDate) {
+    public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
     }
 }
