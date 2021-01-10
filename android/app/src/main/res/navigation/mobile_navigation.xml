@@ -27,6 +27,10 @@
     <fragment
         android:id="@+id/nav_qr"
         android:name="com.fsq.pobop.ui.qr.QRFragment"
-        android:label="QR" />
+        android:label="QR" >
+        <action
+            android:id="@+id/action_nav_qr_to_nav_pantry"
+            app:destination="@id/nav_pantry" />
+    </fragment>
 
 </navigation>
