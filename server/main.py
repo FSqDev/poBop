@@ -43,6 +43,9 @@ def register():
         "password": password_hashed,
         "products": []
     })
+    return jsonify({
+        "id": str(ret.inserted_id)
+    })
     return Response("Registration success", status=200) # TODO return id as well
 
 
@@ -66,9 +69,11 @@ def login():
     for account in accounts: # Should always just be one
         print(account)
         if bcrypt.checkpw(request.json["password"].encode('utf8'), account["password"]):
-            return Response(str(account["_id"]), status=200)
+            return jsonify({
+                "id": str(account["_id"])
+            })
         else:
-            return Response("Wrong password", status=400) # TODO wrap in json id
+            return Response("Wrong password", status=400)
 
 
 @app.route('/users/products', methods=['GET'])
