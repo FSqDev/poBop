@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.fsq.pobop.api.Api;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,8 +30,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
 
-        EditText email = findViewById(R.id.edtTxtEmail);
-        EditText password = findViewById(R.id.editTextPassword);
+        TextInputEditText email = findViewById(R.id.edtTxtEmail);
+        TextInputEditText password = findViewById(R.id.edtTxtPass);
         Button register = findViewById(R.id.btnRegister);
 
         register.setOnClickListener(v -> register(email.getText().toString(), password.getText().toString()));
