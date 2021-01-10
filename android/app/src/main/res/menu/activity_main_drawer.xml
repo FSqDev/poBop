@@ -12,5 +12,9 @@
             android:id="@+id/nav_pantry"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/pantry" />
+        <item
+            android:id="@+id/nav_recipe"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/recipes" />
     </group>
 </menu>
