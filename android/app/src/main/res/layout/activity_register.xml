@@ -44,6 +44,7 @@
         android:layout_marginTop="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textPassword"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
@@ -78,6 +79,7 @@
         android:layout_marginTop="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textPassword"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
