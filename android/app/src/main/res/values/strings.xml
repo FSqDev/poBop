@@ -18,4 +18,10 @@
     <string name="pantry">Pantry</string>
 
     <string name="qr_string">QR</string>
+
+    <string-array name="pantry_filter">
+        <item>Alphabetical</item>
+        <item>Most Recent</item>
+        <item>Expiry Date</item>
+    </string-array>
 </resources>

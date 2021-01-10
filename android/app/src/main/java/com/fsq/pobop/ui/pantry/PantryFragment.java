@@ -10,6 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -50,6 +52,11 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
         setHasOptionsMenu(true);
         viewModel = new ViewModelProvider(this).get(PantryViewModel.class);
 
+        Spinner spinner = root.findViewById(R.id.ingredients_spinner);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.pantry_filter, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter1);
+
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewIngredients);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
@@ -81,6 +88,7 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
     public void onItemClick(int position) {
         // nav to details
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
