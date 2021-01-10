@@ -80,7 +80,15 @@ class SpoonAPI:
         response = requests.get(request_url, params=params)
         if self.debug:
             pprint(response.json())
-        return Response(str(response.json()), status=200)
+        res = response.json()[0]
+        steps = []
+        for step in res['steps']:
+            steps.append({
+                'number': step['number'],
+                'step': step['step']
+            })
+
+        return Response(str({'steps': steps}), status=200)
 
     def get_recipe_summary(self, recipe_id):
         request_url = self.baseUrl + f'/recipes/{recipe_id}/summary'
