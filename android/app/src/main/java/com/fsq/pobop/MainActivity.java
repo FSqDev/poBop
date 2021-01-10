@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         SharedPreferences sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
-        if (sharedPreferences.getLong("id", -1) == -1) {
+        if (sharedPreferences.getString("id", null) == null) {
             Intent newIntent = new Intent(MainActivity.this, AuthenticationActivity.class);
             startActivity(newIntent);
         }

@@ -3,11 +3,13 @@ load_dotenv()
 
 from flask import Flask, request, Response, jsonify
 import db
+from bson.objectid import ObjectId
 import bcrypt
 import os
 from spoon import SpoonAPI
 import requests
 import json
+import utils
 
 
 app = Flask("app")
@@ -41,7 +43,10 @@ def register():
         "password": password_hashed,
         "products": []
     })
-    return Response("Registration success", status=200)
+    return jsonify({
+        "id": str(ret.inserted_id)
+    })
+    return Response("Registration success", status=200) # TODO return id as well
 
 
 @app.route('/users/login', methods=['POST'])
@@ -64,33 +69,70 @@ def login():
     for account in accounts: # Should always just be one
         print(account)
         if bcrypt.checkpw(request.json["password"].encode('utf8'), account["password"]):
-            return Response(str(account["_id"]), status=200)
+            return jsonify({
+                "id": str(account["_id"])
+            })
         else:
             return Response("Wrong password", status=400)
 
 
+@app.route('/users/products', methods=['GET'])
+def getUserproducts():
+    """
+    Gets the list representing the products a user currently has
+    Expecting parameter id (the MongoDB ID)
+    Returns json with the products under 'products'
+    """
+    userID = request.args.get("id")
+    if not userID:
+        return Response("Expected parameter 'id' in request", status=400)
+    
+    resp = db.db["users"].find_one({"_id": ObjectId(userID)})
+    if not resp:
+        return Response("Invalid user ID", status=400)
+    return jsonify({
+        "products": resp["products"]
+    })
+
+
+@app.route('/users/products', methods=['PUT'])
+def addUserProducts():
+    """
+    Adds a list of new products to the user's db
+    Expecting body { id: str, products: list }
+    where each product is of form { id: str, barcode: str }
+    """
+    if "id" not in request.json:
+        return Response("Expected parameter 'id' in body", status=400)
+    if "products" not in request.json:
+        return Response("Expected parameter 'products' in body", status=400)
+    
+    for product in request.json["products"]:
+        info = utils.product_info(product["barcode"], spoon_api)
+        db.db["users"].find_one_and_update(
+            {'_id': ObjectId(request.json["id"])},
+            {'$push': {'products': {
+                '_id': ObjectId(product["id"]),
+                'name': info["name"],
+                'product_type': info["product_type"],
+                'image_url': info["image_url"]
+            }}}
+        )
+
+    return Response("Completed with no errors", status=200)
+
+
 @app.route('/products/getinfo', methods=['POST'])
-def getProductName():
+def getProductInfo():
     """ 
     Converts a product's UPC code into the product's name using buycott's API 
     Expecting body { UPC: str }
-    Returns body with the full name, an image and TODO ingredient it counts as, if found 
+    Returns body with the full name, an image and product type it counts as, if found 
     """
     if "UPC" not in request.json:
         return Response("Expected parameter 'UPC' in body", status=400)
 
-    body = {
-        "barcode": request.json["UPC"],
-        "access_token": os.environ["BUYCOTT_TOKEN"]
-    }
-    resp = requests.request(method='get', url='https://www.buycott.com/api/v4/products/lookup', json=body)
-    as_dict = json.loads(resp.content) # Product count is theoretically one because UPC unique
-    product_name = as_dict["products"][0]["product_name"]
-    ret = {
-        "name": product_name,
-        "product_type": spoon_api.lookup_product(product_name),
-        "image_url": as_dict["products"][0]["product_image_url"]
-    }
+    ret = utils.product_info(request.json["UPC"], spoon_api)
     return jsonify(ret)
 
 
@@ -103,6 +145,8 @@ def get_recipes():
     args:
         ingredients: a string of comma seperated items that we want to be included in the recipe
     """
+    if 'ingredients' not in request.args:
+        return Response("Expected parameter 'ingredients'", status=400)
     try:
         # eg. spoon_api.get_recipe(['chicken', 'tuna', 'chocolate'])
         return spoon_api.get_recipe(request.args['ingredients'])

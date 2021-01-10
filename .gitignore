@@ -5,6 +5,9 @@ server/.env
 # Python
 **/__pycache__/
 
+# IDE
+.vscode
+
 # ------------------------- ANDROID ------------------------- #
 # Built application files
 *.apk

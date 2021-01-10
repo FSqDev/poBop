@@ -27,6 +27,13 @@
         android:rotation="-46"
         android:rotationX="54" />
 
+    <TextView
+        android:id="@+id/textViewLoginError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Invalid Username or Password"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
@@ -34,4 +41,10 @@
         android:rotation="-37"
         android:rotationY="50"
         android:text="@string/login" />
+
+    <Button
+        android:id="@+id/loginRegisterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register" />
 </LinearLayout>
