@@ -93,6 +93,7 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
 
             if (id != null) {
                 RequestQueue queue = Volley.newRequestQueue(root.getContext());
+                boolean delivered = false;
                 if (dirtyIngredients.size() > 0) {
                     JSONObject putJson = new JSONObject();
                     try {
@@ -106,19 +107,26 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                     }, error -> {
                     });
                     queue.add(jsonObjectPut);
+                    while (!delivered) {
+                        delivered = jsonObjectPut.hasHadResponseDelivered();
+                    }
+                } else {
+                    delivered = true;
                 }
 
-                JsonObjectRequest jsonObjectGet = new JsonObjectRequest(Request.Method.GET, Api.BASE + "users/products?id=" + id, null, response -> {
-                    try {
-                        viewModel.add(jsonToIngredients(response.getJSONArray("products")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-                    Log.d("SYNC ERROR", error.getMessage());
-                });
+                if (delivered) {
+                    JsonObjectRequest jsonObjectGet = new JsonObjectRequest(Request.Method.GET, Api.BASE + "users/products?id=" + id, null, response -> {
+                        try {
+                            viewModel.add(jsonToIngredients(response.getJSONArray("products")));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                        Log.d("SYNC ERROR", error.getMessage());
+                    });
 
-                queue.add(jsonObjectGet);
+                    queue.add(jsonObjectGet);
+                }
             }
         });
     }
