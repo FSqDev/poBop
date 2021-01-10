@@ -86,7 +86,7 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                     if (sortBy.equals("Alphabetical")) {
                         ingredientList.sort((o1, o2) -> o1.getProductName().compareTo(o2.getProductName()));
                     } else if (sortBy.equals("Expiry Date")) {
-                        ingredientList.sort((o1, o2) -> o2.getExpiryDate().compareTo(o1.getExpiryDate()));
+                        ingredientList.sort((o1, o2) -> o1.getExpiryDate().compareTo(o2.getExpiryDate()));
                     }
                     adapter.setProjectListItems(ingredientList);
                 }
