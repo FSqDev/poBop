@@ -70,7 +70,7 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                 viewModel.markDeleted(adapter.getIngredientAt(viewHolder.getAdapterPosition()).getId());
+                viewModel.markDeleted(adapter.getIngredientAt(viewHolder.getAdapterPosition()).getId());
             }
 
         };
@@ -156,7 +156,11 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                     }
                     JsonObjectRequest jsonObjectDelete = new JsonObjectRequest(Request.Method.POST, Api.BASE + "users/products/delete", deleteJson, response -> {
                         viewModel.deleteAllDeleted();
-                    }, error -> {});
+                    }, error -> {
+                        if(error != null) {
+                            Log.d("SYNC ERROR", error.getMessage());
+                        }
+                    });
                     queue.add(jsonObjectDelete);
                     while (!deleteDelivered) {
                         deleteDelivered = jsonObjectDelete.hasHadResponseDelivered();
@@ -174,7 +178,11 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                     }
 
                     JsonObjectRequest jsonObjectPut = new JsonObjectRequest(Request.Method.PUT, Api.BASE + "users/products", putJson, response -> {
-                    }, error -> {});
+                    }, error -> {
+                        if (error != null) {
+                            Log.d("SYNC ERROR", error.getMessage());
+                        }
+                    });
                     queue.add(jsonObjectPut);
                     while (!putDelivered) {
                         putDelivered = jsonObjectPut.hasHadResponseDelivered();
@@ -191,7 +199,11 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }, error -> Log.d("SYNC ERROR", error.getMessage()));
+                    }, error -> {
+                        if (error != null) {
+                            Log.d("SYNC ERROR", error.getMessage());
+                        }
+                    });
 
                     queue.add(jsonObjectGet);
                     while (!getDelivered) {

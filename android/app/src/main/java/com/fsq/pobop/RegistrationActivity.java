@@ -58,6 +58,9 @@ public class RegistrationActivity extends AppCompatActivity {
             editor.apply();
             finish();
         }, error -> {
+            if(error != null) {
+                Log.d("REGISTRATION ERROR", error.getMessage());
+            }
         });
 
         queue.add(jsonObjectRequest);

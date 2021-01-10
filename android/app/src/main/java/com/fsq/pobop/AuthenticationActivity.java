@@ -70,6 +70,9 @@ public class AuthenticationActivity extends AppCompatActivity {
             editor.apply();
             finish();
         }, error -> {
+            if(error != null) {
+                Log.d("LOGIN ERROR", error.getMessage());
+            }
         });
 
         queue.add(jsonObjectRequest);
