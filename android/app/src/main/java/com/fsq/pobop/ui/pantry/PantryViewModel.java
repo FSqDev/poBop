@@ -28,8 +28,16 @@ public class PantryViewModel extends AndroidViewModel {
         return ingredientRepository.findAll();
     }
 
+    public List<Ingredient> findAllDirty() {
+        return ingredientRepository.findAllDirty();
+    }
+
     public void add(Ingredient ingredient){
         ingredientRepository.insert(ingredient);
+    }
+
+    public void add(List<Ingredient> ingredients){
+        ingredientRepository.insert(ingredients);
     }
 
 }

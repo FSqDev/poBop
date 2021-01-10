@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.fsq.pobop.api.Api;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,26 +25,24 @@ import org.json.JSONObject;
 public class AuthenticationActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    TextView errorTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authentication);
+        setContentView(R.layout.activity_login);
 
+        getSupportActionBar().hide();
         sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
-        errorTextView = findViewById(R.id.textViewLoginError);
 
-        EditText username = findViewById(R.id.editTextUsername);
-        EditText password = findViewById(R.id.editTextPassword);
+        TextInputEditText username = findViewById(R.id.editTextUsername);
+        TextInputEditText password = findViewById(R.id.editTextPassword);
 
-        Button loginButton = findViewById(R.id.loginButton);
+        TextView loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(v -> {
-            errorTextView.setVisibility(View.INVISIBLE);
             authenticate(username.getText().toString(), password.getText().toString());
         });
 
-        Button registerButton = findViewById(R.id.loginRegisterButton);
+        TextView registerButton = findViewById(R.id.loginRegisterButton);
         registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(AuthenticationActivity.this, RegistrationActivity.class);
             startActivity(intent);
@@ -72,7 +71,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             finish();
         }, error -> {
             Log.d( "authenticate: ", String.valueOf(error.networkResponse.statusCode));
-            errorTextView.setVisibility(View.VISIBLE);
         });
 
         queue.add(jsonObjectRequest);

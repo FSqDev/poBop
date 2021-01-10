@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fsq.pobop.R;
-import com.fsq.pobop.ui.pantry.PantryViewModel;
 
 public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnItemClickListener {
 
