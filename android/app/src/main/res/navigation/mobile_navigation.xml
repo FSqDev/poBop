@@ -18,7 +18,11 @@
         android:id="@+id/nav_recipe"
         android:name="com.fsq.pobop.ui.recipe.RecipeFragment"
         android:label="@string/recipes"
-        tools:layout="@layout/recipe_fragment" />
+        tools:layout="@layout/recipe_fragment" >
+        <action
+            android:id="@+id/action_nav_recipe_to_recipeDetailsActivity"
+            app:destination="@id/nav_recipe_details" />
+    </fragment>
     <fragment
         android:id="@+id/nav_add_ingredient"
         android:name="com.fsq.pobop.ui.pantry.AddIngredientFragment"
@@ -31,6 +35,20 @@
         <action
             android:id="@+id/action_nav_qr_to_nav_pantry"
             app:destination="@id/nav_pantry" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_recipe_details"
+        android:name="com.fsq.pobop.ui.recipe.details.RecipeDetailsFragment"
+        android:label="Recipe Details">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="image"
+            app:argType="android.graphics.Bitmap" />
     </fragment>
 
 </navigation>

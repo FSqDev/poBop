@@ -1,5 +1,4 @@
 package com.fsq.pobop.ui.recipe;
-import com.fsq.pobop.ui.RecipeDetailsActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,37 +7,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fsq.pobop.entity.ingredient.Ingredient;
 import com.fsq.pobop.R;
-import com.fsq.pobop.ui.pantry.PantryViewModel;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.Request;
-import com.android.volley.DefaultRetryPolicy;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import com.fsq.pobop.ui.recipe.Recipe;
+
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import com.fsq.pobop.api.Api;
-import java.util.concurrent.Executor;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import android.util.Log;
-import android.content.Intent;
 
 
 public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnItemClickListener {
@@ -102,11 +90,7 @@ public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnI
     @Override
     public void onItemClick(int position) {
         Recipe recipe = adapter.getRecipeAt(position);
-        Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
-        intent.putExtra("title", recipe.getName());
-        intent.putExtra("id", recipe.getRecipeId());
-        intent.putExtra("image", recipe.getBmp());
-        startActivity(intent);
+        Navigation.findNavController(root).navigate(RecipeFragmentDirections.actionNavRecipeToRecipeDetailsActivity(recipe.getRecipeId(), recipe.getName(), recipe.getBmp()));
     }
 
     private List<Ingredient> getIngredientsFromJson(JSONArray arr) {
