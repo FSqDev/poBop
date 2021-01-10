@@ -217,6 +217,11 @@ def get_recipes():
 def get_summary(id: int):
     return spoon_api.get_recipe_summary(id)
 
+@app.route('/recipes/instructions/<id>', methods=['GET'])
+def get_instructions(id: int):
+    return spoon_api.get_recipe_instructions(id)
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))

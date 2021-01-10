@@ -71,6 +71,7 @@ class SpoonAPI:
         return Response(str({'recipes': responses}), status=200)
 
     def get_recipe_instructions(self, recipe_id: int):
+        print(recipe_id)
         request_url = self.baseUrl + f'/recipes/{recipe_id}/analyzedInstructions'
         params = {
             'apiKey': self.api_key,

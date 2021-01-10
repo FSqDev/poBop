@@ -14,7 +14,7 @@ public interface IngredientDao extends BaseDao<Ingredient> {
     @Query("SELECT * FROM ingredient WHERE id = :id")
     LiveData<Ingredient> findById(int id);
 
-    @Query("SELECT * FROM ingredient WHERE dirty <> 2")
+    @Query("SELECT * FROM ingredient WHERE dirty <> 2 ORDER BY name")
     LiveData<List<Ingredient>> findAll();
 
     @Query("SELECT * FROM ingredient")
