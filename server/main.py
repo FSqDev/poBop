@@ -209,6 +209,10 @@ def get_recipes():
     except Exception as e:
         return Response('Error occured while fetching recipes ' + str(e), status=404)
 
+@app.route('/recipes/summary/<id>', methods=['GET'])
+def get_summary(id: int):
+    return spoon_api.get_recipe_summary(id)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
