@@ -32,7 +32,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
     public void onBindViewHolder(@NonNull RecipeDetailHolder holder, int position) {
         try {
             JSONObject currentRecipeDetail = recipeDetails.getJSONObject(position);
-            holder.stepNum.setText(String.valueOf(currentRecipeDetail.getInt("number")));
+            holder.stepNum.setText("Step Number: " + String.valueOf(currentRecipeDetail.getInt("number")));
             holder.stepContent.setText(currentRecipeDetail.getString("step"));
         } catch (JSONException e) {
             e.printStackTrace();
