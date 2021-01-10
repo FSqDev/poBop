@@ -40,4 +40,16 @@ public class PantryViewModel extends AndroidViewModel {
         ingredientRepository.insert(ingredients);
     }
 
+    public List<String> findAllDeleted() {
+        return ingredientRepository.findAllDeleted();
+    }
+
+    public void deleteAllDeleted() {
+        ingredientRepository.deleteAllDeleted();
+    }
+
+    public void markDeleted(String id) {
+        ingredientRepository.markDeleted(id);
+    }
+
 }
