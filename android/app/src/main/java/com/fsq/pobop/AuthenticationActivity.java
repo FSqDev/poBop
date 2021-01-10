@@ -3,7 +3,6 @@ package com.fsq.pobop;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -22,8 +21,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             editor.putLong("id", 1);
             editor.apply();
-            Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-            startActivity(intent);
+            finish();
         });
     }
 }
