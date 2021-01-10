@@ -5,10 +5,10 @@
         android:id="@+id/pantry_menu_sync"
         android:icon="@drawable/ic_reload"
         android:title=""
-        app:showAsAction="ifRoom|withText"></item>
+        app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/pantry_menu_add"
         android:icon="@android:drawable/ic_menu_add"
         android:title=""
-        app:showAsAction="ifRoom|withText"></item>
+        app:showAsAction="ifRoom|withText" />
 </menu>

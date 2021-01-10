@@ -7,14 +7,15 @@
 
     <TextView
         android:id="@+id/signupText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="100dp"
         android:text="Sign up"
         android:textSize="34dp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/emailText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +31,8 @@
         app:layout_constraintBottom_toTopOf="@+id/edtTxtEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signupText"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:textColor="@color/black"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edtTxtEmail"
@@ -64,7 +66,8 @@
         app:layout_constraintBottom_toTopOf="@+id/edtTxtPass"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtTxtEmail"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:textColor="@color/black"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edtTxtPass"
@@ -84,7 +87,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +105,8 @@
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         app:elevation="10dp"
-        app:strokeColor="@color/design_default_color_primary"
+        android:textColor="#15a14a"
+        app:strokeColor="#15a14a"
         app:strokeWidth="1dp"
     />
 
