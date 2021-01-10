@@ -110,4 +110,11 @@ public class Ingredient {
         }
         return jsonObject;
     }
+
+    public String getNonNullName() {
+        if (getProductType() == null) {
+            return getProductName();
+        }
+        return getProductType();
+    }
 }

@@ -1,4 +1,6 @@
 package com.fsq.pobop.ui.recipe;
+import android.graphics.Bitmap;
+
 import com.fsq.pobop.entity.ingredient.Ingredient;
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class Recipe {
     private List<Ingredient> missingIngredients;
     private int missingIngredientCount;
     private String summary;
+    private int recipeId;
+    private Bitmap bmp;
 
     public Recipe(String name, String imageUrl) {
         this.name = name;
@@ -20,16 +24,32 @@ public class Recipe {
             String name,
             String imageUrl,
             int likes,
-//            List<Ingredient> missingIngredients,
-            int missingIngredientCount
-//            String summary
+            int missingIngredientCount,
+            int recipeId
+
     ) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.likes = likes;
-//        this.missingIngredients = missingIngredients;
         this.missingIngredientCount = missingIngredientCount;
-//        this.summary = summary;
+        this.recipeId = recipeId;
+    }
+
+    public Bitmap getBmp() {
+        return bmp;
+    }
+
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
+    }
+
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
     }
 
     public int getLikes() {

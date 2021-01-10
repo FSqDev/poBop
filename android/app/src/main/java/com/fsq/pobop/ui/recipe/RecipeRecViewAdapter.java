@@ -1,23 +1,26 @@
 package com.fsq.pobop.ui.recipe;
 
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fsq.pobop.R;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import android.os.Handler;
+
 import android.util.Log;
 
 public class RecipeRecViewAdapter extends RecyclerView.Adapter<RecipeRecViewAdapter.RecipeHolder> {
@@ -42,6 +45,28 @@ public class RecipeRecViewAdapter extends RecyclerView.Adapter<RecipeRecViewAdap
         Recipe currentRecipe = recipeList.get(position);
         holder.name.setText(currentRecipe.getName());
         holder.rating.setText("Likes: " + currentRecipe.getLikes());
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                URL url = new URL(currentRecipe.getImageUrl());
+                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentRecipe.setBmp(bmp);
+                        holder.img.setImageBitmap(bmp);
+                    }
+                });
+
+            } catch (IOException e) {
+                Log.d("recipe", "Couldn't fetch recipe photo: " + e.getMessage());
+            }
+
+        });
+    }
+
+    public Recipe getRecipeAt(int position) {
+        return this.recipeList.get(position);
     }
 
     @Override
@@ -62,9 +87,9 @@ public class RecipeRecViewAdapter extends RecyclerView.Adapter<RecipeRecViewAdap
 
         RecipeHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-            name = itemView.findViewById(R.id.txtRecipeName);
+            name = itemView.findViewById(R.id.stepNum);
             img = itemView.findViewById(R.id.imgRecipe);
-            rating = itemView.findViewById(R.id.txtSpoonacularScore);
+            rating = itemView.findViewById(R.id.stepContent);
             this.onItemClickListener = onItemClickListener;
             itemView.setOnClickListener(this);
         }

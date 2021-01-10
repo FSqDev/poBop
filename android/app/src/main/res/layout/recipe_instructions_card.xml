@@ -8,24 +8,16 @@
     app:cardCornerRadius="7dp"
     android:elevation="7dp"
     android:layout_margin="8dp">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:id="@+id/imgRecipe"
-            android:src="@mipmap/ic_launcher"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recipe Name"
+            android:text="Step: 0"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:layout_below="@+id/imgRecipe"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:id="@+id/stepNum" />
@@ -33,14 +25,12 @@
         <TextView
             android:id="@+id/stepContent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/stepNum"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:text="Spoonacular Score"
+            android:text="Content"
             android:textSize="16sp"
-            android:textStyle="bold" />
-
+             />
     </RelativeLayout>
-
 </com.google.android.material.card.MaterialCardView>

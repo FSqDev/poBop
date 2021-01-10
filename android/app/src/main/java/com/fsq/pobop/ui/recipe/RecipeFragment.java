@@ -1,5 +1,5 @@
 package com.fsq.pobop.ui.recipe;
-
+import com.fsq.pobop.ui.RecipeDetailsActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,28 +38,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import android.util.Log;
+import android.content.Intent;
+
 
 public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnItemClickListener {
 
     private RecipeViewModel viewModel;
+    private RecipeRecViewAdapter adapter;
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.recipe_fragment, container, false);
+        root = inflater.inflate(R.layout.recipe_fragment, container, false);
 
         viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
 
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewRecipes);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
-        RecipeRecViewAdapter adapter = new RecipeRecViewAdapter(this);
+        adapter = new RecipeRecViewAdapter(this);
         recyclerView.setAdapter(adapter);
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Ingredient> availableIngredients = viewModel.findAllIngredients();
             RequestQueue queue = Volley.newRequestQueue(root.getContext());
             String ingredientString = availableIngredients.stream()
-                    .map(item -> item.getProductName()).collect(Collectors.joining(","));
+                    .map(item -> item.getNonNullName()).collect(Collectors.joining(","));
 //            ingredientString = "tomato,chicken";
             Log.d("DIRTYDOG", ingredientString);
             String requestURL = Api.BASE +  "recipes?ingredients=" + ingredientString;
@@ -77,9 +81,8 @@ public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnI
                                                         obj.getString("title"),
                                                         obj.getString("image"),
                                                         obj.getInt("likes"),
-//                                                        getIngredientsFromJson(obj.getJSONArray("missingIngredients")),
-                                                        obj.getInt("numMissingIngredients")
-//                                                        obj.getString("summary")
+                                                        obj.getInt("numMissingIngredients"),
+                                                        obj.getInt("id")
                                                 )
                                         );
                                     }
@@ -98,7 +101,12 @@ public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnI
 
     @Override
     public void onItemClick(int position) {
-        //
+        Recipe recipe = adapter.getRecipeAt(position);
+        Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
+        intent.putExtra("title", recipe.getName());
+        intent.putExtra("id", recipe.getRecipeId());
+        intent.putExtra("image", recipe.getBmp());
+        startActivity(intent);
     }
 
     private List<Ingredient> getIngredientsFromJson(JSONArray arr) {

@@ -20,6 +20,8 @@
         <activity
             android:name=".RegistrationActivity"
             android:launchMode="singleInstance" />
+        <activity android:name=".ui.RecipeDetailsActivity"
+            android:launchMode="singleInstance"/>
 
         <activity android:name=".SplashActivity">
             <intent-filter>
