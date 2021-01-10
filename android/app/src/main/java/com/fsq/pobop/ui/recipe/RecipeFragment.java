@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fsq.pobop.R;
@@ -20,6 +21,8 @@ public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnI
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewRecipes);
         final RecipeRecViewAdapter adapter = new RecipeRecViewAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
 
         return root;
     }
