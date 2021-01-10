@@ -6,8 +6,13 @@
     android:orientation="vertical">
 
     <TextView
+        android:drawableLeft="@drawable/calendary_ico"
+        android:drawablePadding="10dp"
         android:id="@+id/dialogExpiryDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="24dp"/>
 </LinearLayout>

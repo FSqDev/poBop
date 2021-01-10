@@ -34,13 +34,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Expiry date"/>
+
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Date"
+        android:drawableLeft="@drawable/calendary_ico"
+        android:drawablePadding="10dp"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
         android:gravity="bottom"
-        android:textSize="18sp"/>
+        android:text="Date"
+        android:textSize="18sp" />
 
     <Button
         android:layout_marginTop="24dp"
