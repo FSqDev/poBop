@@ -9,6 +9,7 @@ from spoon import SpoonAPI
 import requests
 import json
 
+
 app = Flask("app")
 spoon_api = SpoonAPI()
 
@@ -84,8 +85,10 @@ def getProductName():
     }
     resp = requests.request(method='get', url='https://www.buycott.com/api/v4/products/lookup', json=body)
     as_dict = json.loads(resp.content) # Product count is theoretically one because UPC unique
+    product_name = as_dict["products"][0]["product_name"]
     ret = {
-        "name": as_dict["products"][0]["product_name"],
+        "name": product_name,
+        "product_type": spoon_api.lookup_product(product_name),
         "image_url": as_dict["products"][0]["product_image_url"]
     }
     return jsonify(ret)
