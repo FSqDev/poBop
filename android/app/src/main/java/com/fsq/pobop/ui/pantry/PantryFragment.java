@@ -10,7 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -46,6 +46,8 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
     private PantryViewModel viewModel;
     View root;
 
+    private String sortBy;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_pantry, container, false);
@@ -53,9 +55,6 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
         viewModel = new ViewModelProvider(this).get(PantryViewModel.class);
 
         Spinner spinner = root.findViewById(R.id.ingredients_spinner);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.pantry_filter, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter1);
 
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewIngredients);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -78,8 +77,29 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        viewModel.findAll().observe(getViewLifecycleOwner(), ingredientList -> {
 
-        viewModel.findAll().observe(getViewLifecycleOwner(), adapter::setProjectListItems);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    sortBy = parent.getItemAtPosition(position).toString();
+                    if (sortBy.equals("Alphabetical")) {
+                        ingredientList.sort((o1, o2) -> o1.getProductName().compareTo(o2.getProductName()));
+                    } else if (sortBy.equals("Expiry Date")) {
+                        ingredientList.sort((o1, o2) -> o2.getExpiryDate().compareTo(o1.getExpiryDate()));
+                    }
+                    adapter.setProjectListItems(ingredientList);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            adapter.setProjectListItems(ingredientList);
+
+        });
 
         return root;
     }
