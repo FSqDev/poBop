@@ -39,7 +39,8 @@
             android:layout_marginTop="8dp"
             android:text="Spoonacular Score"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
     </RelativeLayout>
 
