@@ -66,6 +66,7 @@
         android:id="@+id/edtTxtPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/editbackground"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
