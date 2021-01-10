@@ -129,6 +129,11 @@ def addUserProducts():
         return Response("Expected parameter 'products' in body", status=400)
     
     for product in request.json["products"]:
+        if db.db["users"].products.find(
+            {"_id": ObjectId(product["id"])}
+        ).count != 1:
+            continue
+
         if "barcode" in product:
             info = utils.product_info(product["barcode"], spoon_api)
             db.db["users"].find_one_and_update(
