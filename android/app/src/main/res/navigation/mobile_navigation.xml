@@ -3,30 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.fsq.pobop.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_pantry"
         android:name="com.fsq.pobop.ui.pantry.PantryFragment"
         android:label="@string/pantry"
-        tools:layout="@layout/fragment_pantry" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_pantry_to_nav_add_ingredient"
             app:destination="@id/nav_add_ingredient" />
     </fragment>
     <fragment
+        android:id="@+id/nav_recipe"
+        android:name="com.fsq.pobop.ui.recipe.RecipeFragment"
+        android:label="@string/recipes"
+        tools:layout="@layout/fragment_home" />
+    <fragment
         android:id="@+id/nav_add_ingredient"
         android:name="com.fsq.pobop.ui.pantry.AddIngredientFragment"
         android:label="Add New Ingredient"
-        tools:layout="@layout/fragment_add_ingredient" />
-    <fragment
-        android:id="@+id/nav_recipe"
-        android:name="com.fsq.pobop.ui.recipe.RecipeFragment"
-        android:label="Recipes" />
+        tools:layout="@layout/fragment_home" />
 
 </navigation>

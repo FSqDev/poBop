@@ -1,7 +1,6 @@
 package com.fsq.pobop.ui.pantry;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,18 +10,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fsq.pobop.R;
-import com.fsq.pobop.entity.ingredient.Ingredient;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class PantryFragment extends Fragment implements IngredientAdapter.OnItemClickListener {
 

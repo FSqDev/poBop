@@ -3,6 +3,7 @@ from pprint import pprint
 import requests
 import os
 from typing import List
+import pandas as pd
 
 
 class SpoonAPI:
@@ -10,6 +11,7 @@ class SpoonAPI:
         self.debug = debug
         self.baseUrl = 'https://api.spoonacular.com'
         self.api_key = os.environ['SPOON_API_KEY']
+        self.lookup_table = pd.read_csv('top-1k-ingredients.csv')
         # self.diets = [
         #     'vegetarian',
         #     'vegan',
@@ -87,4 +89,28 @@ class SpoonAPI:
         }
         response = requests.get(request_url, params=params)
         return response.json()
+
+    def lookup_product(self, product_name: str):
+        max_match = -100
+        best_guess = None
+        for row in self.lookup_table.itertuples():
+            item = row[1].split(';')[0]
+            length = self._lcs(product_name, item)
+            if length > max_match:
+                max_match = length
+                best_guess = item
+
+        return best_guess if best_guess != None else "N/A"
+
+    
+    def _lcs(self, s1, s2):
+        s1 = s1.lower()
+        s2 = s2.lower()
+        set1 = set(s1.split())
+        set2 = set(s2.split())
+        matches = len(set1.intersection(set2))
+        if matches == 0:
+            return -100
+        return  matches - (len(set1 ^ set2))
+        
 

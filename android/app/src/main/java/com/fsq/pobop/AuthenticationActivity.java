@@ -1,11 +1,11 @@
 package com.fsq.pobop;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
