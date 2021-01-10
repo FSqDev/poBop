@@ -16,4 +16,6 @@
 
 
     <string name="pantry">Pantry</string>
+
+    <string name="qr_string">QR</string>
 </resources>

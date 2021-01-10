@@ -29,5 +29,9 @@
         android:name="com.fsq.pobop.ui.pantry.AddIngredientFragment"
         android:label="Add New Ingredient"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_qr"
+        android:name="com.fsq.pobop.ui.qr.QR"
+        android:label="QR" />
 
 </navigation>
