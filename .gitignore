@@ -1,6 +1,6 @@
 # ------------------------- SERVER ------------------------- #
 # Private vars
-server/.mongokey
+server/.env
 
 # Python
 **/__pycache__/
