@@ -9,6 +9,7 @@ import os
 from spoon import SpoonAPI
 import requests
 import json
+import utils
 
 
 app = Flask("app")
@@ -42,7 +43,7 @@ def register():
         "password": password_hashed,
         "products": []
     })
-    return Response("Registration success", status=200)
+    return Response("Registration success", status=200) # TODO return id as well
 
 
 @app.route('/users/login', methods=['POST'])
@@ -67,7 +68,7 @@ def login():
         if bcrypt.checkpw(request.json["password"].encode('utf8'), account["password"]):
             return Response(str(account["_id"]), status=200)
         else:
-            return Response("Wrong password", status=400)
+            return Response("Wrong password", status=400) # TODO wrap in json id
 
 
 @app.route('/users/products', methods=['GET'])
@@ -90,30 +91,43 @@ def getUserproducts():
 
 
 @app.route('/users/products', methods=['PUT'])
+def addUserProducts():
+    """
+    Adds a list of new products to the user's db
+    Expecting body { id: str, products: list }
+    where each product is of form { id: str, barcode: str }
+    """
+    if "id" not in request.json:
+        return Response("Expected parameter 'id' in body", status=400)
+    if "products" not in request.json:
+        return Response("Expected parameter 'products' in body", status=400)
+    
+    for product in request.json["products"]:
+        info = utils.product_info(product["barcode"], spoon_api)
+        db.db["users"].find_one_and_update(
+            {'_id': ObjectId(request.json["id"])},
+            {'$push': {'products': {
+                '_id': ObjectId(product["id"]),
+                'name': info["name"],
+                'product_type': info["product_type"],
+                'image_url': info["image_url"]
+            }}}
+        )
+
+    return Response("Completed with no errors", status=200)
 
 
 @app.route('/products/getinfo', methods=['POST'])
-def getProductName():
+def getProductInfo():
     """ 
     Converts a product's UPC code into the product's name using buycott's API 
     Expecting body { UPC: str }
-    Returns body with the full name, an image and TODO ingredient it counts as, if found 
+    Returns body with the full name, an image and product type it counts as, if found 
     """
     if "UPC" not in request.json:
         return Response("Expected parameter 'UPC' in body", status=400)
 
-    body = {
-        "barcode": request.json["UPC"],
-        "access_token": os.environ["BUYCOTT_TOKEN"]
-    }
-    resp = requests.request(method='get', url='https://www.buycott.com/api/v4/products/lookup', json=body)
-    as_dict = json.loads(resp.content) # Product count is theoretically one because UPC unique
-    product_name = as_dict["products"][0]["product_name"]
-    ret = {
-        "name": product_name,
-        "product_type": spoon_api.lookup_product(product_name),
-        "image_url": as_dict["products"][0]["product_image_url"]
-    }
+    ret = utils.product_info(request.json["UPC"], spoon_api)
     return jsonify(ret)
 
 
