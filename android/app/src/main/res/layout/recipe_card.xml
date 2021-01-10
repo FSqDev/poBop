@@ -27,7 +27,8 @@
             android:layout_below="@+id/imgRecipe"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:id="@+id/txtRecipeName"/>
+            android:id="@+id/txtRecipeName" />
+
 
         <TextView
             android:id="@+id/txtSpoonacularScore"
