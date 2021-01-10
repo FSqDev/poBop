@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/recipes" />
 
+    <item
+        android:id="@+id/nav_qr"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/qr_string" />
+
 </menu>
