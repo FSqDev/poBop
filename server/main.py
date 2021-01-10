@@ -156,7 +156,7 @@ def addUserProducts():
     return Response("Completed with no errors", status=200)
 
 
-@app.route('/users/products', methods=['DELETE'])
+@app.route('/users/products/delete', methods=['POST'])
 def deleteUserProduct():
     """
     Deletes a product from a user's db by id
