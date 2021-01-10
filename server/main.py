@@ -176,7 +176,9 @@ def deleteUserProduct():
             }}}
         )
 
-    return Response("Completed with no errors", status=200)
+    return jsonify({
+        "success": "True"
+    })
 
 
 @app.route('/products/getinfo', methods=['POST'])
@@ -209,6 +211,7 @@ def get_recipes():
         return spoon_api.get_recipe(request.args['ingredients'])
     except Exception as e:
         return Response('Error occured while fetching recipes ' + str(e), status=404)
+
 
 @app.route('/recipes/summary/<id>', methods=['GET'])
 def get_summary(id: int):
