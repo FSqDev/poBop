@@ -73,7 +73,6 @@ def login():
         return Response("Email is not registered", status=400)
     
     for account in accounts: # Should always just be one
-        print(account)
         if bcrypt.checkpw(request.json["password"].encode('utf8'), account["password"]):
             return jsonify({
                 "id": str(account["_id"])
