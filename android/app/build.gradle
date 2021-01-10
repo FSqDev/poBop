@@ -34,6 +34,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
+    implementation 'android.support:appcompact-v7:21.0'
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
