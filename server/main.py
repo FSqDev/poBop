@@ -1,14 +1,20 @@
+# Environment Variables
 from dotenv import load_dotenv
 load_dotenv()
 
-from flask import Flask, request, Response, jsonify
+# Database access
 import db
 from bson.objectid import ObjectId
-import bcrypt
+
+# General
+from flask import Flask, request, Response, jsonify
 import os
-from spoon import SpoonAPI
 import requests
 import json
+import bcrypt
+
+# Custom wrappers
+from spoon import SpoonAPI
 import utils
 
 
@@ -46,7 +52,7 @@ def register():
     return jsonify({
         "id": str(ret.inserted_id)
     })
-    return Response("Registration success", status=200) # TODO return id as well
+    return Response("Registration success", status=200)
 
 
 @app.route('/users/login', methods=['POST'])
@@ -90,9 +96,19 @@ def getUserproducts():
     resp = db.db["users"].find_one({"_id": ObjectId(userID)})
     if not resp:
         return Response("Invalid user ID", status=400)
-    return jsonify({
-        "products": resp["products"]
-    })
+    
+    ret = []
+    for product in resp["products"]:
+        new = {
+            "_id": str(product["_id"]),
+            "name": product["name"],
+            "product_type": product["product_type"],
+            "image_url": product["image_url"],
+            "expiry_date": product["expiry_date"]
+        }
+        ret.append(new)
+
+    return jsonify(ret)
 
 
 @app.route('/users/products', methods=['PUT'])
@@ -100,7 +116,7 @@ def addUserProducts():
     """
     Adds a list of new products to the user's db
     Expecting body { id: str, products: list }
-    where each product is of form { id: str, barcode: str }
+    where each product is of form { id: str, barcode: str, expiry_date: str }
     """
     if "id" not in request.json:
         return Response("Expected parameter 'id' in body", status=400)
@@ -115,9 +131,32 @@ def addUserProducts():
                 '_id': ObjectId(product["id"]),
                 'name': info["name"],
                 'product_type': info["product_type"],
-                'image_url': info["image_url"]
+                'image_url': info["image_url"],
+                'expiry_date': product["expiry_date"]
             }}}
         )
+
+    return Response("Completed with no errors", status=200)
+
+
+@app.route('/users/products', methods=['DELETE'])
+def deleteUserProduct():
+    """
+    Deletes a product from a user's db by id
+    Expecting body { user_id: str, product_id: str }
+    Returns if it doesn't crash : ^ )
+    """
+    if "user_id" not in request.json:
+        return Response("Expected parameter 'user_id' in body", status=400)
+    if "product_id" not in request.json:
+        return Response("Expected parameter 'product_id' in body", status=400)
+
+    db.db["users"].find_one_and_update(
+        {'_id': ObjectId(request.json["user_id"])},
+        {'$pull': {'products': {
+            '_id': ObjectId(request.json["product_id"]),
+        }}}
+    )
 
     return Response("Completed with no errors", status=200)
 
