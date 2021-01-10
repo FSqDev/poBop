@@ -160,20 +160,21 @@ def addUserProducts():
 def deleteUserProduct():
     """
     Deletes a product from a user's db by id
-    Expecting body { user_id: str, product_id: str }
+    Expecting body { user_id: str, product_ids: list[str] }
     Returns if it doesn't crash : ^ )
     """
     if "user_id" not in request.json:
         return Response("Expected parameter 'user_id' in body", status=400)
-    if "product_id" not in request.json:
-        return Response("Expected parameter 'product_id' in body", status=400)
+    if "product_ids" not in request.json:
+        return Response("Expected parameter 'product_ids' in body", status=400)
 
-    db.db["users"].find_one_and_update(
-        {'_id': ObjectId(request.json["user_id"])},
-        {'$pull': {'products': {
-            '_id': ObjectId(request.json["product_id"]),
-        }}}
-    )
+    for product_id in request.json["product_ids"]:
+        db.db["users"].find_one_and_update(
+            {'_id': ObjectId(request.json["user_id"])},
+            {'$pull': {'products': {
+                '_id': ObjectId(product_id),
+            }}}
+        )
 
     return Response("Completed with no errors", status=200)
 
