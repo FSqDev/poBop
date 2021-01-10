@@ -107,7 +107,9 @@ def getUserproducts():
         }
         ret.append(new)
 
-    return jsonify(ret)
+    return jsonify({
+        "products": ret
+    })
 
 
 @app.route('/users/products', methods=['PUT'])
