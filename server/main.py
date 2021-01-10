@@ -97,7 +97,8 @@ def getUserproducts():
             "_id": str(product["_id"]),
             "name": product["name"],
             "product_type": product["product_type"],
-            "image_url": product["image_url"]
+            "image_url": product["image_url"],
+            "expiry_date": product["expiry_date"]
         }
         ret.append(new)
 
@@ -109,7 +110,7 @@ def addUserProducts():
     """
     Adds a list of new products to the user's db
     Expecting body { id: str, products: list }
-    where each product is of form { id: str, barcode: str }
+    where each product is of form { id: str, barcode: str, expiry_date: str }
     """
     if "id" not in request.json:
         return Response("Expected parameter 'id' in body", status=400)
@@ -124,7 +125,8 @@ def addUserProducts():
                 '_id': ObjectId(product["id"]),
                 'name': info["name"],
                 'product_type': info["product_type"],
-                'image_url': info["image_url"]
+                'image_url': info["image_url"],
+                'expiry_date': product["expiry_date"]
             }}}
         )
 
