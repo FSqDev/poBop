@@ -15,7 +15,7 @@
 
         <ImageView
             android:layout_width="130dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:id="@+id/imgRecipe"
             android:src="@mipmap/ic_launcher"/>
 
@@ -28,6 +28,7 @@
             android:layout_below="@+id/imgRecipe"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp"
             android:id="@+id/txtRecipeName"/>
     </RelativeLayout>
 
