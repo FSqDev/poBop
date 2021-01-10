@@ -97,3 +97,4 @@ lint/tmp/
 
 *.idea
 *__pycache__/
+.env

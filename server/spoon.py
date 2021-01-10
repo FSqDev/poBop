@@ -46,7 +46,7 @@ class SpoonAPI:
     def get_recipe(self, ingredients: str):
 
         params = {
-            'number': 1,
+            'number': 5,
             'ingredients': ingredients,
             'apiKey': self.api_key,
             'ranking': 2,
@@ -54,21 +54,22 @@ class SpoonAPI:
         }
 
         request_url = self.baseUrl + '/recipes/findByIngredients'
-        ar = requests.get(request_url, params=params).json()[0]
+        res = requests.get(request_url, params=params).json()
         if self.debug:
-            pprint(ar)
+            pprint(res)
+        responses = []
+        for ar in res:
+            responses.append({
+                'id': ar['id'],
+                'image': ar['image'],
+                'title': ar['title'],
+                'likes': ar['likes'],
+                'missingIngredients': ar['missedIngredients'],
+                'numMissingIngredients': ar['missedIngredientCount'],
+                'summary': self.get_recipe_summary(ar['id'])['summary']
 
-        response = {
-            'id': ar['id'],
-            'image': ar['image'],
-            'title': ar['title'],
-            'likes': ar['likes'],
-            'missingIngredients': ar['missedIngredients'],
-            'numMissingIngredients': ar['missedIngredientCount'],
-            'summary': self.get_recipe_summary(ar['id'])['summary']
-
-        }
-        return Response(str(response), status=200)
+            })
+        return Response(str({'recipes': responses}), status=200)
 
     def get_recipe_instructions(self, recipe_id: int):
         request_url = self.baseUrl + f'/recipes/{recipe_id}/analyzedInstructions'
