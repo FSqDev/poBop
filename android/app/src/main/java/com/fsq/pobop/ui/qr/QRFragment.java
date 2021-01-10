@@ -42,14 +42,19 @@ public class QRFragment extends Fragment implements DatePickerDialog.OnDateSetLi
         CodeScannerView scannerView = root.findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(activity, scannerView);
         mCodeScanner.setDecodeCallback(result -> activity.runOnUiThread(() -> {
-            createAlertDialog().show();
             Ingredient ingredient = new Ingredient();
             DateConverter dateConverter = new DateConverter();
             String[] results = result.getText().split(",");
-            ingredient.setBarcode(results[0]);
-            ingredient.setExpiryDate(dateConverter.stringToDate(results[1]));
-            ingredient.setDirty(1);
-            viewModel.add(ingredient);
+            if(results.length == 2) {
+                ingredient.setBarcode(results[0]);
+                ingredient.setExpiryDate(dateConverter.stringToDate(results[1]));
+                ingredient.setDirty(1);
+                viewModel.add(ingredient);
+            } else if (results.length == 1) {
+                createAlertDialog(results[0]).show();
+            } else {
+                //What the fuck have you brought upon this cursed land
+            }
             Navigation.findNavController(root).navigate(QRFragmentDirections.actionNavQrToNavPantry());
         }));
         scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
@@ -71,7 +76,7 @@ public class QRFragment extends Fragment implements DatePickerDialog.OnDateSetLi
     TextView expiryDate;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private AlertDialog createAlertDialog() {
+    private AlertDialog createAlertDialog(String barcode) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater layoutInflater = requireActivity().getLayoutInflater();
         View content = layoutInflater.inflate(R.layout.dialog_expiry_date, null);
@@ -83,11 +88,14 @@ public class QRFragment extends Fragment implements DatePickerDialog.OnDateSetLi
         builder.setView(content)
                 .setTitle("Set expiry date")
                 .setPositiveButton("Confirm", ((dialog, which) -> {
-                    // do stuff
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setBarcode(barcode);
+                    ingredient.setExpiryDate(LocalDate.parse(expiryDate.getText().toString(), formatter));
+                    ingredient.setDirty(0);
+                    viewModel.add(ingredient);
                     dialog.dismiss();
                 }))
                 .setNegativeButton("Cancel", (((dialog, which) -> {
-                    // do stuff
                     dialog.cancel();
                 })));
         return builder.create();
