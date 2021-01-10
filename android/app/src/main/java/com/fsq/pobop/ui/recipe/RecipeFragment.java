@@ -50,7 +50,8 @@ public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnI
         viewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
 
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewRecipes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
         RecipeRecViewAdapter adapter = new RecipeRecViewAdapter(this);
         recyclerView.setAdapter(adapter);
 
