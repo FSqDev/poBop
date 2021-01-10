@@ -109,7 +109,6 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
 
                 JsonObjectRequest jsonObjectGet = new JsonObjectRequest(Request.Method.GET, Api.BASE + "users/products?id=" + id, null, response -> {
                     try {
-                        Log.d("DOG", response.getJSONArray("products").toString());
                         viewModel.add(jsonToIngredients(response.getJSONArray("products")));
                     } catch (JSONException e) {
                         e.printStackTrace();
