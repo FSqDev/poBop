@@ -41,11 +41,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        app:endIconMode="password_toggle">
+        android:layout_marginTop="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:inputType="textPassword"
             android:id="@+id/registrationEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,9 +76,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textPassword"
             android:id="@+id/registrationPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
