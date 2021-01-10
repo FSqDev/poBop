@@ -44,6 +44,7 @@ public class AddIngredientFragment extends Fragment implements DatePickerDialog.
             Ingredient ingredient = new Ingredient();
             ingredient.setProductName(nameTextView.getText().toString());
             ingredient.setExpiryDate(LocalDate.parse(dateTextView.getText().toString(), formatter));
+            ingredient.setDirty(1);
             viewModel.add(ingredient);
             Navigation.findNavController(root).navigateUp();
         });
