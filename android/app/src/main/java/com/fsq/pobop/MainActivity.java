@@ -34,16 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        int MY_PERMISSIONS_REQUEST_CAMERA=0;
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))
-            {
-
-            }
-            else
-            {
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA );
+        int MY_PERMISSIONS_REQUEST_CAMERA = 0;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
             }
         }
 
@@ -66,13 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
         mButton.setOnClickListener(v -> mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED));
 
-}
+    }
 
     @Override
     public void onStart() {
         super.onStart();
         SharedPreferences sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
-        Log.d("DOG",sharedPreferences.getString("id", "DOG"));
         if (sharedPreferences.getString("id", null) == null) {
             Intent newIntent = new Intent(MainActivity.this, AuthenticationActivity.class);
             startActivity(newIntent);
