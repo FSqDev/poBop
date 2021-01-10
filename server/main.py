@@ -15,14 +15,21 @@ spoon_api = SpoonAPI()
 @app.route('/')
 def home():
     """ Basically just here to check if server is running """
-    # spoon_api.get_recipe(['chicken', 'tuna', 'chocolate'])
     return 'poBop server is running'
 
 
 @app.route('/users/register', methods=['POST'])
 def register():
-    """ Registers new user account
-    Expecting body { email: str, password: str } """
+    """ 
+    Registers new user account
+    Expecting body { email: str, password: str } 
+    Returns 200 if successful, 400 if email already registered 
+    """
+    if "email" not in request.json:
+        return Response("Expected parameter 'email' in body", status=400)
+    if "password" not in request.json:
+        return Response("Expected parameter 'password' in body", status=400)
+
     if db.db["users"].find({"email": request.json["email"]}).count() != 0:
         return Response("Email already registered", status=400)
 
@@ -38,8 +45,16 @@ def register():
 
 @app.route('/users/login', methods=['POST'])
 def login():
-    """ Attempts to login
-    Expecting body { email: str, password: str } """
+    """ 
+    Attempts to login
+    Expecting body { email: str, password: str } 
+    Returns user mongoID if successful, else error 400 
+    """
+    if "email" not in request.json:
+        return Response("Expected parameter 'email' in body", status=400)
+    if "password" not in request.json:
+        return Response("Expected parameter 'password' in body", status=400)
+
     accounts = db.db["users"].find({"email": request.json["email"]})
 
     if accounts.count() == 0:
@@ -55,8 +70,14 @@ def login():
 
 @app.route('/products/getinfo', methods=['POST'])
 def getProductName():
-    """ Converts a product's UPC code into the product's name using buycott's API 
-    Expecting body { UPC: str } """
+    """ 
+    Converts a product's UPC code into the product's name using buycott's API 
+    Expecting body { UPC: str }
+    Returns body with the full name, an image and TODO ingredient it counts as, if found 
+    """
+    if "UPC" not in request.json:
+        return Response("Expected parameter 'UPC' in body", status=400)
+
     body = {
         "barcode": request.json["UPC"],
         "access_token": os.environ["BUYCOTT_TOKEN"]
@@ -80,6 +101,7 @@ def get_recipes():
         ingredients: a string of comma seperated items that we want to be included in the recipe
     """
     try:
+        # eg. spoon_api.get_recipe(['chicken', 'tuna', 'chocolate'])
         return spoon_api.get_recipe(request.args['ingredients'])
     except Exception as e:
         return Response('Error occured while fetching recipes ' + str(e), status=404)
