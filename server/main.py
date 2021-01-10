@@ -2,12 +2,15 @@ from flask import Flask, request, Response, jsonify
 import db
 import bcrypt
 import os
+from spoon import SpoonAPI
 
 app = Flask("app")
+spoon_api = SpoonAPI()
 
 @app.route('/')
 def home():
     """ Basically just here to check if server is running """
+    # spoon_api.get_recipe(['chicken', 'tuna', 'chocolate'])
     return 'poBop server is running'
 
 
@@ -40,7 +43,22 @@ def login():
         else:
             return Response("Wrong password", status=400)
 
+@app.route('/recipes', methods=['GET'])
+def get_recipes():
+    """
+    Returns a recipe that includes as many of the given ingredients as possible.
+    Prioritizes recipes that don't contain ingredients that are missing from the given list
+
+    args:
+        ingredients: a string of comma seperated items that we want to be included in the recipe
+    """
+    try:
+        return spoon_api.get_recipe(request.args['ingredients'])
+    except Exception as e:
+        return Response('Error occured while fetching recipes ' + str(e), status=404)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    app.run(port=port)
+    app.run(host='0.0.0.0', port=port)
+
