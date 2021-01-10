@@ -26,7 +26,7 @@
         tools:layout="@layout/fragment_add_ingredient" />
     <fragment
         android:id="@+id/nav_qr"
-        android:name="com.fsq.pobop.ui.qr.QR"
+        android:name="com.fsq.pobop.ui.qr.QRFragment"
         android:label="QR" />
 
 </navigation>
