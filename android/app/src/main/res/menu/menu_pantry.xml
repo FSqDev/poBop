@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/pantry_menu_sync"
+        android:icon="@android:drawable/ic_lock_idle_low_battery"
+        android:title=""
+        app:showAsAction="ifRoom|withText"></item>
+    <item
         android:id="@+id/pantry_menu_add"
         android:icon="@android:drawable/ic_menu_add"
         android:title=""

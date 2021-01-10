@@ -1,5 +1,6 @@
 package com.fsq.pobop.data;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -19,6 +20,13 @@ public class BaseRepository<T, D extends BaseDao<T>> {
         D localDao = dao;
         executeOffMainThread(() -> {
             localDao.insert(entity);
+        });
+    }
+
+    public void insert(List<T> entities) {
+        D localDao = dao;
+        executeOffMainThread(() -> {
+            localDao.insert(entities);
         });
     }
 

@@ -73,7 +73,6 @@ def login():
         return Response("Email is not registered", status=400)
     
     for account in accounts: # Should always just be one
-        print(account)
         if bcrypt.checkpw(request.json["password"].encode('utf8'), account["password"]):
             return jsonify({
                 "id": str(account["_id"])
@@ -108,7 +107,9 @@ def getUserproducts():
         }
         ret.append(new)
 
-    return jsonify(ret)
+    return jsonify({
+        "products": ret
+    })
 
 
 @app.route('/users/products', methods=['PUT'])
@@ -117,6 +118,7 @@ def addUserProducts():
     Adds a list of new products to the user's db
     Expecting body { id: str, products: list }
     where each product is of form { id: str, barcode: str, expiry_date: str }
+    OR of form { id: str, name: str, expiry_date: str }
     """
     if "id" not in request.json:
         return Response("Expected parameter 'id' in body", status=400)
@@ -124,17 +126,29 @@ def addUserProducts():
         return Response("Expected parameter 'products' in body", status=400)
     
     for product in request.json["products"]:
-        info = utils.product_info(product["barcode"], spoon_api)
-        db.db["users"].find_one_and_update(
-            {'_id': ObjectId(request.json["id"])},
-            {'$push': {'products': {
-                '_id': ObjectId(product["id"]),
-                'name': info["name"],
-                'product_type': info["product_type"],
-                'image_url': info["image_url"],
-                'expiry_date': product["expiry_date"]
-            }}}
-        )
+        if "barcode" in product:
+            info = utils.product_info(product["barcode"], spoon_api)
+            db.db["users"].find_one_and_update(
+                {'_id': ObjectId(request.json["id"])},
+                {'$push': {'products': {
+                    '_id': ObjectId(product["id"]),
+                    'name': info["name"],
+                    'product_type': info["product_type"],
+                    'image_url': info["image_url"],
+                    'expiry_date': product["expiry_date"]
+                }}}
+            )
+        else:
+            db.db["users"].find_one_and_update(
+                {'_id': ObjectId(request.json["id"])},
+                {'$push': {'products': {
+                    '_id': ObjectId(product["id"]),
+                    'name': product["name"],
+                    'product_type': spoon_api.lookup_product(product["name"]),
+                    'image_url': "",
+                    'expiry_date': product["expiry_date"]
+                }}}
+            )
 
     return Response("Completed with no errors", status=200)
 

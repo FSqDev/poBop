@@ -26,4 +26,8 @@ public class IngredientRepository extends BaseRepository<Ingredient, IngredientD
     public LiveData<List<Ingredient>> findAll() {
         return dao.findAll();
     }
+
+    public List<Ingredient> findAllDirty() {
+        return dao.findAllDirty();
+    }
 }
