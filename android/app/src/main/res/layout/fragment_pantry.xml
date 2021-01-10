@@ -39,10 +39,11 @@
 
     <Spinner
         android:id="@+id/ingredients_spinner"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:entries="@array/pantry_filter"
+        android:textColor="@color/black"
         app:layout_anchor="@+id/relativeLayout"
         app:layout_anchorGravity="end|center" />
 
