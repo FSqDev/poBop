@@ -12,6 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <item name="boxBackgroundColor">@android:color/white</item>
+        </style>
+
     </style>
 
     <style name="Theme.PoBop.NoActionBar">
