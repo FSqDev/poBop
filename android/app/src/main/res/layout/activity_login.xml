@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:background="#ffffff"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +51,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginLeft="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:background="#ffffff"/>
 
         <Button
             android:id="@+id/loginButton"
