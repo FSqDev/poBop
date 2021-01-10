@@ -156,26 +156,29 @@ def addUserProducts():
     return Response("Completed with no errors", status=200)
 
 
-@app.route('/users/products', methods=['DELETE'])
+@app.route('/users/products/delete', methods=['POST'])
 def deleteUserProduct():
     """
     Deletes a product from a user's db by id
-    Expecting body { user_id: str, product_id: str }
+    Expecting body { user_id: str, product_ids: list[str] }
     Returns if it doesn't crash : ^ )
     """
     if "user_id" not in request.json:
         return Response("Expected parameter 'user_id' in body", status=400)
-    if "product_id" not in request.json:
-        return Response("Expected parameter 'product_id' in body", status=400)
+    if "product_ids" not in request.json:
+        return Response("Expected parameter 'product_ids' in body", status=400)
 
-    db.db["users"].find_one_and_update(
-        {'_id': ObjectId(request.json["user_id"])},
-        {'$pull': {'products': {
-            '_id': ObjectId(request.json["product_id"]),
-        }}}
-    )
+    for product_id in request.json["product_ids"]:
+        db.db["users"].find_one_and_update(
+            {'_id': ObjectId(request.json["user_id"])},
+            {'$pull': {'products': {
+                '_id': ObjectId(product_id),
+            }}}
+        )
 
-    return Response("Completed with no errors", status=200)
+    return jsonify({
+        "success": "True"
+    })
 
 
 @app.route('/products/getinfo', methods=['POST'])
@@ -208,6 +211,11 @@ def get_recipes():
         return spoon_api.get_recipe(request.args['ingredients'])
     except Exception as e:
         return Response('Error occured while fetching recipes ' + str(e), status=404)
+
+
+@app.route('/recipes/summary/<id>', methods=['GET'])
+def get_summary(id: int):
+    return spoon_api.get_recipe_summary(id)
 
 
 if __name__ == "__main__":
