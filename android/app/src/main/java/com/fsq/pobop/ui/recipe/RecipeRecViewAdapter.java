@@ -17,22 +17,22 @@ import java.util.List;
 public class RecipeRecViewAdapter extends RecyclerView.Adapter<RecipeRecViewAdapter.RecipeHolder> {
 
     private List<Recipe> recipeList = new ArrayList<>();
-    private RecipeRecViewAdapter.OnItemClickListener itemClickListener;
+    private OnItemClickListener itemClickListener;
 
-    RecipeRecViewAdapter(RecipeRecViewAdapter.OnItemClickListener onItemClickListener) {
+    RecipeRecViewAdapter(OnItemClickListener onItemClickListener) {
         this.itemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
-    public RecipeRecViewAdapter.RecipeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecipeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recipe_card, parent, false);
         return new RecipeHolder(itemView, (OnItemClickListener) itemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeRecViewAdapter.RecipeHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecipeHolder holder, int position) {
         Recipe currentRecipe = recipeList.get(position);
         holder.name.setText(currentRecipe.getName());
     }
@@ -50,7 +50,7 @@ public class RecipeRecViewAdapter extends RecyclerView.Adapter<RecipeRecViewAdap
     public static class RecipeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView name;
         private ImageView img;
-        private RecipeRecViewAdapter.OnItemClickListener onItemClickListener;
+        private OnItemClickListener onItemClickListener;
 
         RecipeHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
