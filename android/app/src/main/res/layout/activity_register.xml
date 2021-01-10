@@ -45,7 +45,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/registrationEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
@@ -81,7 +81,7 @@
             android:inputType="textPassword"
             android:id="@+id/registrationPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
