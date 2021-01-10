@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 import com.fsq.pobop.data.AppDatabase;
 import com.fsq.pobop.data.BaseRepository;
 
+import java.util.List;
+
 public class IngredientRepository extends BaseRepository<Ingredient, IngredientDao> {
 
     public IngredientRepository(Application application) {
@@ -19,5 +21,9 @@ public class IngredientRepository extends BaseRepository<Ingredient, IngredientD
 
     public LiveData<Ingredient> findById(int id) {
         return dao.findById(id);
+    }
+
+    public LiveData<List<Ingredient>> findAll() {
+        return dao.findAll();
     }
 }
