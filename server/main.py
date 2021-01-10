@@ -28,7 +28,11 @@ def register():
 
     salt = bcrypt.gensalt()
     password_hashed = bcrypt.hashpw(request.json["password"].encode('utf8'), salt)
-    ret = db.db["users"].insert_one({"email": request.json["email"], "password": password_hashed})
+    ret = db.db["users"].insert_one({
+        "email": request.json["email"], 
+        "password": password_hashed,
+        "products": []
+    })
     return Response("Registration success", status=200)
 
 
