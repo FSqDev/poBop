@@ -12,6 +12,7 @@ import os
 import requests
 import json
 import bcrypt
+import re
 
 # Custom wrappers
 from spoon import SpoonAPI
@@ -36,16 +37,18 @@ def register():
     """
     if "email" not in request.json:
         return Response("Expected parameter 'email' in body", status=400)
+    if not re.search('^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', request.json["email"].lower()):
+        return Response("Email was not valid", status=400)
     if "password" not in request.json:
         return Response("Expected parameter 'password' in body", status=400)
 
-    if db.db["users"].find({"email": request.json["email"]}).count() != 0:
+    if db.db["users"].find({"email": request.json["email"].lower()}).count() != 0:
         return Response("Email already registered", status=400)
 
     salt = bcrypt.gensalt()
     password_hashed = bcrypt.hashpw(request.json["password"].encode('utf8'), salt)
     ret = db.db["users"].insert_one({
-        "email": request.json["email"], 
+        "email": request.json["email"].lower(), 
         "password": password_hashed,
         "products": []
     })
@@ -67,7 +70,7 @@ def login():
     if "password" not in request.json:
         return Response("Expected parameter 'password' in body", status=400)
 
-    accounts = db.db["users"].find({"email": request.json["email"]})
+    accounts = db.db["users"].find({"email": request.json["email"].lower()})
 
     if accounts.count() == 0:
         return Response("Email is not registered", status=400)
