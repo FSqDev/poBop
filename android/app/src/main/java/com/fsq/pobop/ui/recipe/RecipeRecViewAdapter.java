@@ -3,7 +3,6 @@ package com.fsq.pobop.ui.recipe;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fsq.pobop.R;
-import com.fsq.pobop.ui.pantry.IngredientAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +17,9 @@ import java.util.List;
 public class RecipeRecViewAdapter extends RecyclerView.Adapter<RecipeRecViewAdapter.RecipeHolder> {
 
     private List<Recipe> recipeList = new ArrayList<>();
-    private IngredientAdapter.OnItemClickListener itemClickListener;
+    private RecipeRecViewAdapter.OnItemClickListener itemClickListener;
 
-    RecipeRecViewAdapter(IngredientAdapter.OnItemClickListener onItemClickListener) {
+    RecipeRecViewAdapter(RecipeRecViewAdapter.OnItemClickListener onItemClickListener) {
         this.itemClickListener = onItemClickListener;
     }
 
