@@ -46,7 +46,7 @@ def register():
     return jsonify({
         "id": str(ret.inserted_id)
     })
-    return Response("Registration success", status=200) # TODO return id as well
+    return Response("Registration success", status=200)
 
 
 @app.route('/users/login', methods=['POST'])
