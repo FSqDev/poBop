@@ -33,7 +33,8 @@
             android:layout_marginTop="8dp"
             android:id="@+id/txtRecipeName"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/txtSpoonacularScore"
@@ -47,7 +48,8 @@
             android:text="Spoonacular Score"
             android:textAlignment="center"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
     </RelativeLayout>
 
