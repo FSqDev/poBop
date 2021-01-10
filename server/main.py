@@ -90,9 +90,18 @@ def getUserproducts():
     resp = db.db["users"].find_one({"_id": ObjectId(userID)})
     if not resp:
         return Response("Invalid user ID", status=400)
-    return jsonify({
-        "products": resp["products"]
-    })
+    
+    ret = []
+    for product in resp["products"]:
+        new = {
+            "_id": str(product["_id"]),
+            "name": product["name"],
+            "product_type": product["product_type"],
+            "image_url": product["image_url"]
+        }
+        ret.append(new)
+
+    return jsonify(ret)
 
 
 @app.route('/users/products', methods=['PUT'])
@@ -118,6 +127,28 @@ def addUserProducts():
                 'image_url': info["image_url"]
             }}}
         )
+
+    return Response("Completed with no errors", status=200)
+
+
+@app.route('/users/products', methods=['DELETE'])
+def deleteUserProduct():
+    """
+    Deletes a product from a user's db by id
+    Expecting body { user_id: str, product_id: str }
+    Returns if it doesn't crash : ^ )
+    """
+    if "user_id" not in request.json:
+        return Response("Expected parameter 'user_id' in body", status=400)
+    if "product_id" not in request.json:
+        return Response("Expected parameter 'product_id' in body", status=400)
+
+    db.db["users"].find_one_and_update(
+        {'_id': ObjectId(request.json["user_id"])},
+        {'$pull': {'products': {
+            '_id': ObjectId(request.json["product_id"]),
+        }}}
+    )
 
     return Response("Completed with no errors", status=200)
 
