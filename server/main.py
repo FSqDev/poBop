@@ -103,6 +103,8 @@ def get_recipes():
     args:
         ingredients: a string of comma seperated items that we want to be included in the recipe
     """
+    if 'ingredients' not in request.args:
+        return Response("Expected parameter 'ingredients'", status=400)
     try:
         # eg. spoon_api.get_recipe(['chicken', 'tuna', 'chocolate'])
         return spoon_api.get_recipe(request.args['ingredients'])

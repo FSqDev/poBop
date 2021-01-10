@@ -54,7 +54,6 @@ class SpoonAPI:
         }
 
         request_url = self.baseUrl + '/recipes/findByIngredients'
-
         ar = requests.get(request_url, params=params).json()[0]
         if self.debug:
             pprint(ar)
