@@ -30,6 +30,10 @@ public class BaseRepository<T, D extends BaseDao<T>> {
         });
     }
 
+    public void insertWithoutExecutor(List<T> entities) {
+        dao.insert(entities);
+    }
+
     protected void executeOffMainThread(Runnable command) {
         if (executor != null) {
             executor.execute(command);

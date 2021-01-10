@@ -27,4 +27,8 @@ public class RecipeViewModel extends AndroidViewModel {
     public LiveData<List<Ingredient>> findAll() {
         return ingredientRepository.findAll();
     }
+
+    public List<Ingredient> findAllIngredients() {
+        return ingredientRepository.findAllIngredients();
+    }
 }

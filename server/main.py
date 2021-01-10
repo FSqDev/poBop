@@ -12,6 +12,7 @@ import os
 import requests
 import json
 import bcrypt
+import re
 
 # Custom wrappers
 from spoon import SpoonAPI
@@ -36,16 +37,18 @@ def register():
     """
     if "email" not in request.json:
         return Response("Expected parameter 'email' in body", status=400)
+    if not re.search('^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', request.json["email"].lower()):
+        return Response("Email was not valid", status=400)
     if "password" not in request.json:
         return Response("Expected parameter 'password' in body", status=400)
 
-    if db.db["users"].find({"email": request.json["email"]}).count() != 0:
+    if db.db["users"].find({"email": request.json["email"].lower()}).count() != 0:
         return Response("Email already registered", status=400)
 
     salt = bcrypt.gensalt()
     password_hashed = bcrypt.hashpw(request.json["password"].encode('utf8'), salt)
     ret = db.db["users"].insert_one({
-        "email": request.json["email"], 
+        "email": request.json["email"].lower(), 
         "password": password_hashed,
         "products": []
     })
@@ -67,7 +70,7 @@ def login():
     if "password" not in request.json:
         return Response("Expected parameter 'password' in body", status=400)
 
-    accounts = db.db["users"].find({"email": request.json["email"]})
+    accounts = db.db["users"].find({"email": request.json["email"].lower()})
 
     if accounts.count() == 0:
         return Response("Email is not registered", status=400)
@@ -157,20 +160,21 @@ def addUserProducts():
 def deleteUserProduct():
     """
     Deletes a product from a user's db by id
-    Expecting body { user_id: str, product_id: str }
+    Expecting body { user_id: str, product_ids: list[str] }
     Returns if it doesn't crash : ^ )
     """
     if "user_id" not in request.json:
         return Response("Expected parameter 'user_id' in body", status=400)
-    if "product_id" not in request.json:
-        return Response("Expected parameter 'product_id' in body", status=400)
+    if "product_ids" not in request.json:
+        return Response("Expected parameter 'product_ids' in body", status=400)
 
-    db.db["users"].find_one_and_update(
-        {'_id': ObjectId(request.json["user_id"])},
-        {'$pull': {'products': {
-            '_id': ObjectId(request.json["product_id"]),
-        }}}
-    )
+    for product_id in request.json["product_ids"]:
+        db.db["users"].find_one_and_update(
+            {'_id': ObjectId(request.json["user_id"])},
+            {'$pull': {'products': {
+                '_id': ObjectId(product_id),
+            }}}
+        )
 
     return Response("Completed with no errors", status=200)
 
@@ -205,6 +209,10 @@ def get_recipes():
         return spoon_api.get_recipe(request.args['ingredients'])
     except Exception as e:
         return Response('Error occured while fetching recipes ' + str(e), status=404)
+
+@app.route('/recipes/summary/<id>', methods=['GET'])
+def get_summary(id: int):
+    return spoon_api.get_recipe_summary(id)
 
 
 if __name__ == "__main__":
