@@ -1,15 +1,12 @@
 package com.fsq.pobop;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -17,41 +14,31 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.fsq.pobop.api.Api;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AuthenticationActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    TextView errorTextView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authentication);
+        setContentView(R.layout.activity_register);
 
         sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
-        errorTextView = findViewById(R.id.textViewLoginError);
 
-        EditText username = findViewById(R.id.editTextUsername);
-        EditText password = findViewById(R.id.editTextPassword);
+        TextInputEditText email = findViewById(R.id.registrationEmail);
+        TextInputEditText password = findViewById(R.id.registrationPassword);
+        Button register = findViewById(R.id.btnRegister);
 
-        Button loginButton = findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(v -> {
-            errorTextView.setVisibility(View.INVISIBLE);
-            authenticate(username.getText().toString(), password.getText().toString());
-        });
+        register.setOnClickListener(v -> register(email.getText().toString(), password.getText().toString()));
 
-        Button registerButton = findViewById(R.id.loginRegisterButton);
-        registerButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AuthenticationActivity.this, RegistrationActivity.class);
-            startActivity(intent);
-            finish();
-        });
     }
 
-    private void authenticate(String email, String password){
+    private void register(String email, String password){
         RequestQueue queue = Volley.newRequestQueue(this);
         JSONObject json = new JSONObject();
         try {
@@ -61,7 +48,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Api.BASE + "users/login", json, response -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Api.BASE + "users/register", json, response -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             try {
                 editor.putString("id", response.getString("id"));
@@ -72,7 +59,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             finish();
         }, error -> {
             Log.d( "authenticate: ", String.valueOf(error.networkResponse.statusCode));
-            errorTextView.setVisibility(View.VISIBLE);
         });
 
         queue.add(jsonObjectRequest);
