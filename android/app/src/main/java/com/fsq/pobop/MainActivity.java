@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         int MY_PERMISSIONS_REQUEST_CAMERA=0;
-        // Here, this is the current activity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
         {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))
@@ -42,12 +41,9 @@ public class MainActivity extends AppCompatActivity {
             else
             {
                 ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA );
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         }
-        
+
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
