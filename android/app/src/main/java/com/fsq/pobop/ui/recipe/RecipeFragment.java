@@ -58,8 +58,8 @@ public class RecipeFragment extends Fragment implements RecipeRecViewAdapter.OnI
             List<Ingredient> availableIngredients = viewModel.findAllIngredients();
             RequestQueue queue = Volley.newRequestQueue(root.getContext());
             String ingredientString = availableIngredients.stream()
-                    .map(item -> item.getProductType()).collect(Collectors.joining(","));
-            ingredientString = "tomato,chicken";
+                    .map(item -> item.getProductName()).collect(Collectors.joining(","));
+//            ingredientString = "tomato,chicken";
             Log.d("DIRTYDOG", ingredientString);
             String requestURL = Api.BASE +  "recipes?ingredients=" + ingredientString;
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, requestURL, null,
