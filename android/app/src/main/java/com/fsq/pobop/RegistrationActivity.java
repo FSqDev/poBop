@@ -30,8 +30,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
 
-        TextInputEditText email = findViewById(R.id.edtTxtEmail);
-        TextInputEditText password = findViewById(R.id.edtTxtPass);
+        TextInputEditText email = findViewById(R.id.registrationEmail);
+        TextInputEditText password = findViewById(R.id.registrationPassword);
         Button register = findViewById(R.id.btnRegister);
 
         register.setOnClickListener(v -> register(email.getText().toString(), password.getText().toString()));
