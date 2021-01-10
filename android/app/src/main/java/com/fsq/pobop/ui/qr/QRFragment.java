@@ -42,14 +42,23 @@ public class QRFragment extends Fragment implements DatePickerDialog.OnDateSetLi
         CodeScannerView scannerView = root.findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(activity, scannerView);
         mCodeScanner.setDecodeCallback(result -> activity.runOnUiThread(() -> {
-            createAlertDialog().show();
             Ingredient ingredient = new Ingredient();
             DateConverter dateConverter = new DateConverter();
             String[] results = result.getText().split(",");
-            ingredient.setBarcode(results[0]);
-            ingredient.setExpiryDate(dateConverter.stringToDate(results[1]));
-            ingredient.setDirty(1);
-            viewModel.add(ingredient);
+            if(results.length == 2) {
+                ingredient.setBarcode(results[0]);
+                ingredient.setExpiryDate(dateConverter.stringToDate(results[1]));
+                ingredient.setDirty(1);
+                viewModel.add(ingredient);
+            } else if (results.length == 1) {
+                createAlertDialog().show();
+                ingredient.setBarcode(results[0]);
+                ingredient.setExpiryDate(content.findViewById(R.id.dialogExpiryDate).getText())
+                ingredient.setDirty(1);
+                viewModel.add(ingredient);
+            } else {
+                //What the fuck have you brought upon this cursed land
+            }
             Navigation.findNavController(root).navigate(QRFragmentDirections.actionNavQrToNavPantry());
         }));
         scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
@@ -87,7 +96,6 @@ public class QRFragment extends Fragment implements DatePickerDialog.OnDateSetLi
                     dialog.dismiss();
                 }))
                 .setNegativeButton("Cancel", (((dialog, which) -> {
-                    // do stuff
                     dialog.cancel();
                 })));
         return builder.create();
