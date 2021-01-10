@@ -3,10 +3,5 @@ from flask import Flask
 from flask_pymongo import pymongo
 from main import app
 
-with open("./.mongokey", "r") as ENV:
-    for line in ENV:
-        os.environ["MONGOKEY"] = line
-
-client = pymongo.MongoClient(os.environ["MONGOKEY"])
+client = pymongo.MongoClient("mongodb+srv://Admin:lZ3wBWPxo0tKiikW@cluster0.ssnyz.mongodb.net/appdb?retryWrites=true&w=majority")
 db = client.get_database('flask_mongodb_atlas')
-user_collection = pymongo.collection.Collection(db, 'user_collection')

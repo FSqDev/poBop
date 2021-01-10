@@ -6,10 +6,15 @@ import androidx.room.Query;
 
 import com.fsq.pobop.data.BaseDao;
 
+import java.util.List;
+
 @Dao
 public interface IngredientDao extends BaseDao<Ingredient> {
 
     @Query("SELECT * FROM ingredient WHERE id = :id")
     LiveData<Ingredient> findById(int id);
+
+    @Query("SELECT * FROM ingredient")
+    LiveData<List<Ingredient>> findAll();
 
 }
