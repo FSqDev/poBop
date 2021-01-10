@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Button mButton = findViewById(R.id.extended_fab);
 
         mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
-
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mButton.setOnClickListener(v -> mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED));
 
     }

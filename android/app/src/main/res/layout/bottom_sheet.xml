@@ -8,28 +8,27 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:paddingTop="32dp"
-    android:paddingBottom="32dp"
     app:behavior_hideable="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     tools:ignore="ExtraText">>
 
     <TextView
         android:id="@+id/txtFilter"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Filters"
-        android:textSize="50dp"
+        android:layout_marginTop="32dp"
+        android:text="Filter"
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/btnCuisine"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_margin="16dp"
         android:text="Cuisine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +37,10 @@
 
     <Button
         android:id="@+id/btnDiet"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Diet"
+        android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="@+id/btnCuisine"
         app:layout_constraintStart_toStartOf="@+id/btnCuisine"
         app:layout_constraintTop_toBottomOf="@+id/btnCuisine"
@@ -49,10 +48,10 @@
 
     <Button
         android:id="@+id/btnInt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Intolerances"
+        android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="@+id/btnDiet"
         app:layout_constraintStart_toStartOf="@+id/btnDiet"
         app:layout_constraintTop_toBottomOf="@+id/btnDiet"
@@ -60,13 +59,14 @@
 
     <Button
         android:id="@+id/btnPrepTime"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Prep Time"
+        android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="@+id/btnInt"
         app:layout_constraintStart_toStartOf="@+id/btnInt"
         app:layout_constraintTop_toBottomOf="@+id/btnInt"
         android:width="170dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
