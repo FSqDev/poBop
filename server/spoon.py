@@ -66,7 +66,6 @@ class SpoonAPI:
                 'likes': ar['likes'],
                 # 'missingIngredients': ar['missedIngredients'],
                 'numMissingIngredients': ar['missedIngredientCount'],
-                # 'summary': self.get_recipe_summary(ar['id'])['summary']
 
             })
         return Response(str({'recipes': responses}), status=200)
@@ -88,7 +87,7 @@ class SpoonAPI:
             'apiKey': self.api_key
         }
         response = requests.get(request_url, params=params)
-        return response.json()
+        return Response(str(response.json()), status=200)
 
     def lookup_product(self, product_name: str):
         max_match = -100
