@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +55,22 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
         recyclerView.setHasFixedSize(true);
         final IngredientAdapter adapter = new IngredientAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                 viewModel.markDeleted(adapter.getIngredientAt(viewHolder.getAdapterPosition()).getId());
+            }
+
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
 
         viewModel.findAll().observe(getViewLifecycleOwner(), adapter::setProjectListItems);
 
@@ -95,10 +112,30 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("auth", Context.MODE_PRIVATE);
             String id = sharedPreferences.getString("id", null);
             List<Ingredient> dirtyIngredients = viewModel.findAllDirty();
+            List<String> deletedIngredients = viewModel.findAllDeleted();
 
             if (id != null) {
                 RequestQueue queue = Volley.newRequestQueue(root.getContext());
                 boolean putDelivered = false;
+                boolean deleteDelivered = false;
+                if (deletedIngredients.size() > 0) {
+                    JSONObject deleteJson = new JSONObject();
+                    try {
+                        deleteJson.put("user_id", id);
+                        deleteJson.put("product_ids", new JSONArray(deletedIngredients));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    JsonObjectRequest jsonObjectDelete = new JsonObjectRequest(Request.Method.POST, Api.BASE + "users/products/delete", deleteJson, response -> {
+                        viewModel.deleteAllDeleted();
+                    }, error -> {});
+                    queue.add(jsonObjectDelete);
+                    while (!deleteDelivered) {
+                        deleteDelivered = jsonObjectDelete.hasHadResponseDelivered();
+                    }
+                } else {
+                    deleteDelivered = true;
+                }
                 if (dirtyIngredients.size() > 0) {
                     JSONObject putJson = new JSONObject();
                     try {
@@ -109,8 +146,7 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                     }
 
                     JsonObjectRequest jsonObjectPut = new JsonObjectRequest(Request.Method.PUT, Api.BASE + "users/products", putJson, response -> {
-                    }, error -> {
-                    });
+                    }, error -> {});
                     queue.add(jsonObjectPut);
                     while (!putDelivered) {
                         putDelivered = jsonObjectPut.hasHadResponseDelivered();
@@ -120,19 +156,17 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                 }
 
                 boolean getDelivered = false;
-                if (putDelivered) {
+                if (putDelivered && deleteDelivered) {
                     JsonObjectRequest jsonObjectGet = new JsonObjectRequest(Request.Method.GET, Api.BASE + "users/products?id=" + id, null, response -> {
                         try {
                             viewModel.add(jsonToIngredients(response.getJSONArray("products")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }, error -> {
-                        Log.d("SYNC ERROR", error.getMessage());
-                    });
+                    }, error -> Log.d("SYNC ERROR", error.getMessage()));
 
                     queue.add(jsonObjectGet);
-                    while(!getDelivered) {
+                    while (!getDelivered) {
                         getDelivered = jsonObjectGet.hasHadResponseDelivered();
                     }
                     working = false;

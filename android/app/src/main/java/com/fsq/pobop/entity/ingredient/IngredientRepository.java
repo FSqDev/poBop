@@ -34,4 +34,16 @@ public class IngredientRepository extends BaseRepository<Ingredient, IngredientD
     public List<Ingredient> findAllIngredients() {
         return dao.findAllIngredients();
     }
+
+    public List<String> findAllDeleted() {
+        return dao.findAllDeleted();
+    }
+
+    public void deleteAllDeleted() {
+        executeOffMainThread(() -> dao.deleteAllDeleted());
+    }
+
+    public void markDeleted(String id) {
+        executeOffMainThread(() -> dao.markDeleted(id));
+    }
 }

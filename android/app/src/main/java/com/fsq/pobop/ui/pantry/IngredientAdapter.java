@@ -43,6 +43,10 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         return ingredientList.size();
     }
 
+    public Ingredient getIngredientAt(int position) {
+        return ingredientList.get(position);
+    }
+
     void setProjectListItems(List<Ingredient> ingredients) {
         this.ingredientList = ingredients;
         notifyDataSetChanged();
