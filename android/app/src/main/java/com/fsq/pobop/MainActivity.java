@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         SharedPreferences sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE);
+        Log.d("DOG",sharedPreferences.getString("id", "DOG"));
         if (sharedPreferences.getString("id", null) == null) {
             Intent newIntent = new Intent(MainActivity.this, AuthenticationActivity.class);
             startActivity(newIntent);
