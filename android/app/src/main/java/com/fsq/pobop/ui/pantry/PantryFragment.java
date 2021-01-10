@@ -38,6 +38,8 @@ import java.util.concurrent.Executors;
 
 public class PantryFragment extends Fragment implements IngredientAdapter.OnItemClickListener {
 
+    private boolean working = false;
+
     private PantryViewModel viewModel;
     View root;
 
@@ -78,7 +80,10 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
             Navigation.findNavController(root).navigate(PantryFragmentDirections.actionNavPantryToNavAddIngredient());
             return true;
         } else if (id == R.id.pantry_menu_sync) {
-            sync();
+            if (!working) {
+                working = true;
+                sync();
+            }
             return true;
         }
 
@@ -93,7 +98,7 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
 
             if (id != null) {
                 RequestQueue queue = Volley.newRequestQueue(root.getContext());
-                boolean delivered = false;
+                boolean putDelivered = false;
                 if (dirtyIngredients.size() > 0) {
                     JSONObject putJson = new JSONObject();
                     try {
@@ -107,14 +112,15 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                     }, error -> {
                     });
                     queue.add(jsonObjectPut);
-                    while (!delivered) {
-                        delivered = jsonObjectPut.hasHadResponseDelivered();
+                    while (!putDelivered) {
+                        putDelivered = jsonObjectPut.hasHadResponseDelivered();
                     }
                 } else {
-                    delivered = true;
+                    putDelivered = true;
                 }
 
-                if (delivered) {
+                boolean getDelivered = false;
+                if (putDelivered) {
                     JsonObjectRequest jsonObjectGet = new JsonObjectRequest(Request.Method.GET, Api.BASE + "users/products?id=" + id, null, response -> {
                         try {
                             viewModel.add(jsonToIngredients(response.getJSONArray("products")));
@@ -126,6 +132,10 @@ public class PantryFragment extends Fragment implements IngredientAdapter.OnItem
                     });
 
                     queue.add(jsonObjectGet);
+                    while(!getDelivered) {
+                        getDelivered = jsonObjectGet.hasHadResponseDelivered();
+                    }
+                    working = false;
                 }
             }
         });
