@@ -1,14 +1,20 @@
+# Environment Variables
 from dotenv import load_dotenv
 load_dotenv()
 
-from flask import Flask, request, Response, jsonify
+# Database access
 import db
 from bson.objectid import ObjectId
-import bcrypt
+
+# General
+from flask import Flask, request, Response, jsonify
 import os
-from spoon import SpoonAPI
 import requests
 import json
+import bcrypt
+
+# Custom wrappers
+from spoon import SpoonAPI
 import utils
 
 
