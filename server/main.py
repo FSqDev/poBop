@@ -6,6 +6,8 @@ import db
 import bcrypt
 import os
 from spoon import SpoonAPI
+import requests
+import json
 
 app = Flask("app")
 spoon_api = SpoonAPI()
@@ -45,6 +47,23 @@ def login():
             return Response(str(account["_id"]), status=200)
         else:
             return Response("Wrong password", status=400)
+
+
+@app.route('/products/getinfo', methods=['POST'])
+def getProductName():
+    """ Converts a product's UPC code into the product's name using buycott's API 
+    Expecting body { UPC: str } """
+    body = {
+        "barcode": request.json["UPC"],
+        "access_token": os.environ["BUYCOTT_TOKEN"]
+    }
+    resp = requests.request(method='get', url='https://www.buycott.com/api/v4/products/lookup', json=body)
+    as_dict = json.loads(resp.content) # Product count is theoretically one because UPC unique
+    ret = {
+        "name": as_dict["products"][0]["product_name"],
+        "image_url": as_dict["products"][0]["product_image_url"]
+    }
+    return jsonify(ret)
 
 
 @app.route('/recipes', methods=['GET'])
