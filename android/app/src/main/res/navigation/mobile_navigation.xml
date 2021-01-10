@@ -15,5 +15,9 @@
         android:name="com.fsq.pobop.ui.pantry.PantryFragment"
         android:label="@string/pantry"
         tools:layout="@layout/fragment_pantry" />
+    <fragment
+        android:id="@+id/nav_recipe"
+        android:name="com.fsq.pobop.ui.recipe.RecipeFragment"
+        android:label="Recipes" />
 
 </navigation>
